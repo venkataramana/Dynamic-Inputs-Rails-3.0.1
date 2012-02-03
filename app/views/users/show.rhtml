@@ -1,0 +1,30 @@
+
+<style>
+.even { background: #99ccff; }
+.odd { background: #cccccc; }
+</style>
+
+<table align="center">
+        <tr>
+                <td style="background-color:white;"><%= link_to "New User", "/users"%> </td>
+                <td colspan="2" style="background-color:white; text-align:right;"><%= link_to "Edit User", "/users/#{params[:id]}/edit"%> </td>
+        </tr>
+        <tr class="<%= cycle('even','odd') %>">
+                <td>
+                         <% @questions.each do |q|%>
+                                        <%=q.question_name%> </br>
+                         <%end%>
+               </td>
+               <td>
+                        <% @questions.each do |q|%>
+                          : </br>
+                        <%end%>
+                </td>
+               <td>
+                        <% @users.each do |u|%>
+                                <%=u.question_answer%> </br>
+                        <%end%>
+               </td>
+        </tr>
+</table>
+

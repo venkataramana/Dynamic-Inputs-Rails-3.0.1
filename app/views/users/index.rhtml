@@ -1,0 +1,47 @@
+<% form_for @user, :url=> {:action=> "create"} do |f|%>
+        <table align="center" width="60%">
+                <tr>
+                        <td width="35%" style="color:red ; text-align:left ">
+                                <%= flash[:error]%>
+                        </td>
+                        <td>
+                                &nbsp;
+                        </td>
+                </tr>
+        </table>
+       <table align="center" bgcolor="lightgreen" width="60%" >
+                <caption style="color:blue "> <u> Applicatio Form </u> </caption>
+                 <%@questions.each do |q|%>
+                        <tr>
+                                <td width="30%" style="color:red ">
+                                                <%= q.question_name%> </br>
+                                </td>
+                                <td width="1%" style="text-align:left; background:red;">
+                                         : </br>
+                                </td>
+                                <td style="text-align:left; background:white;">
+                                         <% if q.question_type=="text_field" %>
+                                                <%= text_field_tag("a[#{q.id}]", params[:question_answer])%>
+                                         <% elsif q.question_type=="checkbox_tag"%>
+                                                <% q.answers.each do |qa|%>
+                                                        <%=check_box_tag("a[#{q.id}][]", qa.question_answer)%>  <%= qa.question_answer%>
+                                                <%end%>
+                                        <%elsif q.question_type=="radio_button"%>
+                                                <% q.answers.each do |qa|%>
+                                                         <%=radio_button_tag("a[#{q.id}]", qa.question_answer)%> <%= qa.question_answer%>
+                                                <%end%>
+                                        <%elsif q.question_type=="select_tag"%>
+                                                 <%= select_tag "a[#{q.id}]", options_from_collection_for_select(collection(q.id), "question_answer", "question_answer")%>
+                                        <%else%>
+                                                No type selected
+                                        <%end%>
+                                </td>
+                        <tr>
+                <%end%>
+        </table>
+
+        <div align="center">
+                <%= f.submit "Submit"%>
+        </div>
+<%end%>
+

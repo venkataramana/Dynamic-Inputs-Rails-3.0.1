@@ -1,0 +1,50 @@
+<% form_for @users, :url=> {:action=> "update"} do |f|%>
+
+<table align="center" bgcolor="orange" style="outline:1px solid black; font-family:arial">
+        <caption style="color:orange; outline:1px solid black"><b> Editing the form </b></caption>
+        <%@questions.each do |q|%>
+        <tr>
+                <td>
+                        <%=q.question_name%>
+                </td>
+                <td>
+                        : </br>
+                </td>
+
+                <td>
+                        <%# @user.each do |u|%>
+                                <% if q.question_type=="text_field"%>
+                                        <% @yy=check_edit(q.id, params[:id])%>
+                                        <%= text_field_tag("a[#{q.id}]", @yy.to_s)%>
+                                <% elsif q.question_type=="radio_button"%>
+                                        <% q.answers.each do |qa|%>
+                                        <% @yy=check_edit(q.id, params[:id])%>
+                                                <%#= debug(@yy)%>
+                                                <%=radio_button_tag("a[#{q.id}]", qa.question_answer, @yy.eql?(qa.question_answer))%> <%= qa.question_answer %>
+                                        <%end%>
+                                <% elsif q.question_type=="checkbox_tag"%>
+                                        <% q.answers.each do |qa|%>
+                                       <% @yy=check_edit(q.id, params[:id])%>
+                                                <%= check_box_tag("a[#{q.id}][]", qa.question_answer, @yy.include?(qa.question_answer))%> <%= qa.question_answer %>
+                                        <%end%>
+                                <% elsif q.question_type=="select_tag"%>
+                                <% @yy=check_edit(q.id, params[:id])%>
+                                        <%= select_tag "a[#{q.id}]", options_from_collection_for_select(collection(q.id), "question_answer", "question_answer", @yy)%>
+                                <% else%>
+                                        No input type seleced
+                                <%end%>
+                        <%#end%>
+                </td>
+        </tr>
+        <%end%>
+</table>
+<div align="center">
+        <%=f.submit "Update"%>
+</div>
+<%end%>
+<table align="center">
+        <tr>
+                <td style="background-color:white;"><%= link_to "Back to main", "/users"%> </td>
+        <tr>
+</table>
+
